@@ -3,10 +3,9 @@
 PDFLATEX = pdflatex --file-line-error-style --shell-escape
 TEXFILE  = index.tex
 
-.PHONY: clean pdf
+.PHONY: clean pdf pdf
 
 pdf: 
-	$(PDFLATEX) $(TEXFILE)
 	$(PDFLATEX) $(TEXFILE)
 
 clean:
