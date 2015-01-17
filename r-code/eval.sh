@@ -1,9 +1,9 @@
 #!/bin/bash
 
-TIMEOUT=2000  # Время, предоставляемое программе
+TIMEOUT=855   # Ограничение времени работы DEEP
+PSIZE=150     # Размер популяции (population_size)
 MODEL=1       # Текущая модель (1,2,3)
-PSIZE=280     # Размер популяции (population_size)
-ES=14         # Замена индивидуумов (es_lambda)
+COURSE=1      # Номер прогона алгоритма (для сознания файлов-отчётов)
 
 function eval {
 
@@ -19,16 +19,23 @@ function eval {
 	 | sed "s/command=.\/app.r/command=.\/app.r M${MODEL}/g" \
 	   > settings
 	
-	timeout ${TIMEOUT}s dpdeepctl --default-name=settings
+	# DEEP 
+	echo "---> Model: ${MODEL}; PSIZE: ${PSIZE}; ES:${ES}; COURSE:${COURSE}";
+	timeout ${TIMEOUT}s dpdeepctl --default-name=settings 2> /dev/null
+	sleep 1s;
+	echo "OK";
 
-	# Сохранение результата из "settings.hopt_log_0"
-	cat settings.hopt_log_0 > "_result_M${MODEL}_ps${PSIZE}.es${ES}.log";
+	# Перенос результата из "settings.hopt_log_0"
+	cat settings.hopt_log_0 > "results/_result_m${MODEL}p${PSIZE}e${ES}t${COURSE}.log" 2> /dev/null
+	rm -f settings.hopt_log_0
 }
 
-# PSIZE: 60 80 100 ... -> 300
-# ES:    3  4  5   ... -> 300/20=15
+# ES - Замена индивидуумов (es_lambda)
+for COURSE in `seq 1 20`;
+  do 
+   let "ES = 2"; eval;
+   let "ES = 15"; eval;
+   let "ES = 45"; eval;
+  done
 
-for ES in `seq 3 10`;
-  do let "PSIZE = (ES * 20)"
-     eval
-  done 
+rm -f settings

@@ -34,16 +34,10 @@ degradation_rate -> p3_degradation_rate
 degradation_rate -> p4_degradation_rate
 degradation_rate -> p5_degradation_rate
 degradation_rate -> p6_degradation_rate
-degradation_rate -> p7_degradation_rate
-degradation_rate -> p8_degradation_rate
-degradation_rate -> p9_degradation_rate
 degradation_rate -> pp1_mrna_degradation_rate
 degradation_rate -> pp2_mrna_degradation_rate
 degradation_rate -> pp3_mrna_degradation_rate
 degradation_rate -> pp4_mrna_degradation_rate
 degradation_rate -> pp5_mrna_degradation_rate
 degradation_rate -> pp6_mrna_degradation_rate
-degradation_rate -> pp7_mrna_degradation_rate
-degradation_rate -> pp8_mrna_degradation_rate
-degradation_rate -> pp3_mrna_degradation_rate
 
