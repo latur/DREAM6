@@ -2,7 +2,7 @@
 
 TIMEOUT=855   # Ограничение времени работы DEEP
 PSIZE=150     # Размер популяции (population_size)
-MODEL=1       # Текущая модель (1,2,3)
+MODEL=3       # Текущая модель (1,2,3)
 COURSE=1      # Номер прогона алгоритма (для сознания файлов-отчётов)
 
 function eval {
@@ -30,12 +30,19 @@ function eval {
 	rm -f settings.hopt_log_0
 }
 
-# ES - Замена индивидуумов (es_lambda)
-for COURSE in `seq 1 20`;
-  do 
-   let "ES = 2"; eval;
-   let "ES = 15"; eval;
-   let "ES = 45"; eval;
-  done
+function evalmodel {
+  for COURSE in `seq 1 10`;
+    do 
+     let "ES = 6";  let "PSIZE = 70"; eval;
+     let "ES = 10"; let "PSIZE = 140"; eval;
+     let "ES = 30"; let "PSIZE = 350"; eval;
+    done
+  rm -f settings
+}
 
-rm -f settings
+MODEL=1
+evalmodel
+MODEL=2
+evalmodel
+MODEL=3
+evalmodel
