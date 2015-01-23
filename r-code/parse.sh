@@ -3,7 +3,7 @@
 # Формирование из log файлов таблицы: 
 # Время работы, tao, значение F (функционлала качества)
 
-name='results/_result_m1'
+name='results/_result_m'
 for fn in $name*.log;
 do 
   cat $fn \
