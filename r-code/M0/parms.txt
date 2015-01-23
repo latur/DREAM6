@@ -1,0 +1,9 @@
+pro2_strength=9.2258
+rbs1_strength=3.92
+v1_h=12.554
+v6_Kd=0.12
+v6_h=2.3
+v7_Kd=0.5
+v7_h=5
+v8_Kd=0.756
+v8_h=4.1
