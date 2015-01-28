@@ -12,14 +12,13 @@
 2. PDF
 
 ## Differential Evolution Entirely Parallel Method:
-
 Требования:
 
     glib-2.0 >= 2.22
     gthread-2.0 >= 2.22
     gio-2.0 >= 2.22
 
-Установка:
+### Стандартная установка
 
     git clone git://urchin.spbcas.ru:9148/deep
     cd deep
@@ -28,9 +27,37 @@
     make
     sudo make install
 
-Все настройки находятся в **eval.sh** и **settings.ini**. Реализации моделей в M1 M2 M3.
+### Установка в Mac OS X:
+Необходимые в mac os пакеты (менеджер пакетов [Homebrew](http://brew.sh/))
 
-Запуск:
+    brew install automake
+    brew install gtk+
+    brew install libtool
+    brew install intltool
+
+Установка GNU gettext на MAC OS X
+
+    wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.3.1.tar.gz
+    tar -zxvf gettext-0.18.3.1.tar.gz
+    cd gettext-0.18.3.1
+    ./configure
+    make
+    make install
+
+Установка DEEP
+
+    git clone git://urchin.spbcas.ru:9148/deep
+    cd deep
+    autoreconf --install
+    rm -f po/Makefile.in.in
+    ln -s /usr/local/Cellar/intltool/0.50.2/share/intltool/Makefile.in.in po/Makefile.in.in
+    ./configure --prefix=/usr/local
+    make
+    sudo make install
+
+### Запуск
+
+Все настройки находятся в **eval.sh** и **settings.ini**. Реализации моделей в M1 M2 M3.
 
     cd r-code
     chmod +x eval.sh parse.sh
