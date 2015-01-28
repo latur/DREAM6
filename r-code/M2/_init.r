@@ -30,18 +30,19 @@ rs3 <- 1
 rs4 <- 1
 
 # degradation_rate - один общий параметр
-degradation_rate -> p1_degradation_rate
-degradation_rate -> p2_degradation_rate
-degradation_rate -> p3_degradation_rate
-degradation_rate -> p4_degradation_rate
-degradation_rate -> p5_degradation_rate
-degradation_rate -> p6_degradation_rate
-degradation_rate -> p7_degradation_rate
-degradation_rate -> pp1_mrna_degradation_rate
-degradation_rate -> pp2_mrna_degradation_rate
-degradation_rate -> pp3_mrna_degradation_rate
-degradation_rate -> pp4_mrna_degradation_rate
-degradation_rate -> pp5_mrna_degradation_rate
-degradation_rate -> pp6_mrna_degradation_rate
-degradation_rate -> pp7_mrna_degradation_rate
+# DREAM оговорено присвоить единице
+1 -> p1_degradation_rate
+1 -> p2_degradation_rate
+1 -> p3_degradation_rate
+1 -> p4_degradation_rate
+1 -> p5_degradation_rate
+1 -> p6_degradation_rate
+1 -> p7_degradation_rate
+1 -> pp1_mrna_degradation_rate
+1 -> pp2_mrna_degradation_rate
+1 -> pp3_mrna_degradation_rate
+1 -> pp4_mrna_degradation_rate
+1 -> pp5_mrna_degradation_rate
+1 -> pp6_mrna_degradation_rate
+1 -> pp7_mrna_degradation_rate
 
