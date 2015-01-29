@@ -55,9 +55,14 @@
     make
     sudo make install
 
-### Запуск
 
-Все настройки находятся в **eval.sh** и **settings.ini**. Реализации моделей в M1 M2 M3.
+### Запуск
+Запускается DEEP командой:
+
+    dpdeepctl --default-name=settings
+где `settings` — имя файла параметров. Описание параметров можной найти [здесь](http://urchin.spbcas.ru/trac/DEEP/wiki/ControlParameters). Описание взаимодействия DEEP и фалов/параметров подробно изложено [здесь](http://urchin.spbcas.ru/trac/DEEP/wiki/%D0%A7%D0%B0%D1%81%D1%82%D0%BE%D0%97%D0%B0%D0%B4%D0%B0%D0%B2%D0%B0%D0%B5%D0%BC%D1%8B%D0%B5%D0%92%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B).
+
+Для удобства использования моего приолжения все настройки находятся в файле `eval.sh`, который создаёт `settings` и запускает DEEP. Реализации моделей в синтаксисе языка R находятся в папках `M1` `M2` `M3`.
 
     cd r-code
     chmod +x eval.sh parse.sh
