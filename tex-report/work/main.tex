@@ -283,17 +283,113 @@ p \rightarrow ODE(p) \rightarrow M^p
 качестве ответа. Надо полагать, что это происходит из-за большого количества 
 параметров ДУ.
 
-% { \color[HTML]{680100} ЦВЕТНОЙ }
-% Результаты представлены на 
-% рисунках~(\ref{img:pm1},~\ref{img:pm2},~\ref{img:pm3}). 
-% В левом столбце представлена зависимость значения минимизируемого функционала 
-% (вертикаль) от времени (горизонталь). В правом — расстояние $\rho$ между 
-% известными параметрами генной сети и параметрами, найденными методом ППРЭ.
-% 
-% Далее (рис.~\ref{img:em1},~\ref{img:em2},~\ref{img:em3}) представлены результаты
-% работы алогритма при изменении параметра $population\_size$. Аннотация 
-% аналогична.
+Посмотрим, что из себя представляют таблицы концентраций при использовании 
+вектора параметров $p$ и $p^*$. Однако, для наглядности рассмотрим не сами 
+таблицы $M^p$, а их отличие (разности) от таблицы $W$, т.е. $M - W$:
 
+% На рисунках ниже изображены сами таблицы и их графики. 
+% Во всех таблицах строка $i$ соответствует моменту времени $(i - 1) * 0.2$ с., 
+% столбец $j$ есть модуль разности концентраций мРНК с номером $j$
+
+\begin{table}[h]
+  \centering
+  \input{work/_inc_m1t2.tex}
+  \caption{Модель 1. Таблица концентраций получена параметрами $p^*$, 
+  предлагаемыми DREAM6 в качестве ответа. $|W - M^{p^*}|$}
+  \label{m1p2}
+\end{table}
+\begin{table}[h]
+  \centering
+  \input{work/_inc_m1t3.tex}
+  \caption{Модель 1. Таблица концентраций получена подбором параметров 
+  $p_{min}$ методом ППРЭ. $|W - M^{p_{min}}|$}
+  \label{m1p3}
+\end{table}
+\begin{figure}[h]
+  \begin{minipage}[h]{0.5\linewidth}
+    \includegraphics[width=8cm]{tables1f2}
+    \caption{График таблицы \ref{m1p2} для $p^*$}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[h]{0.5\linewidth}
+    \includegraphics[width=8cm]{tables1f3}
+    \caption{График таблицы \ref{m1p3} для $p_{min}$}
+  \end{minipage}
+\end{figure}
+
+
+\begin{table}[h]
+  \centering
+  \input{work/_inc_m2t2.tex}
+  \caption{Модель 2. Таблица концентраций получена параметрами $p^*$, 
+  предлагаемыми DREAM6 в качестве ответа. $|W - M^{p^*}|$}
+  \label{m2p2}
+\end{table}
+\begin{table}[h]
+  \centering
+  \input{work/_inc_m2t3.tex}
+  \caption{Модель 2. Таблица концентраций получена подбором параметров 
+  $p_{min}$ методом ППРЭ. $|W - M^{p_{min}}|$}
+  \label{m2p3}
+\end{table}
+\begin{figure}[h]
+  \begin{minipage}[h]{0.5\linewidth}
+    \includegraphics[width=8cm]{tables2f2}
+    \caption{График таблицы \ref{m2p2} для $p^*$}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[h]{0.5\linewidth}
+    \includegraphics[width=8cm]{tables2f3}
+    \caption{График таблицы \ref{m2p3} для $p_{min}$}
+  \end{minipage}
+\end{figure}
+
+
+\begin{table}[h]
+  \centering
+  \input{work/_inc_m3t2.tex}
+  \caption{Модель 3. Таблица концентраций получена параметрами $p^*$, 
+  предлагаемыми DREAM6 в качестве ответа. $|W - M^{p^*}|$}
+  \label{m3p2}
+\end{table}
+\begin{table}[h]
+  \centering
+  \input{work/_inc_m3t3.tex}
+  \caption{Модель 3. Таблица концентраций получена подбором параметров 
+  $p_{min}$ методом ППРЭ. $|W - M^{p_{min}}|$}
+  \label{m3p3}
+\end{table}
+\begin{figure}[h]
+  \begin{minipage}[h]{0.5\linewidth}
+    \includegraphics[width=8cm]{tables3f2}
+    \caption{График таблицы \ref{m3p2} для $p^*$}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[h]{0.5\linewidth}
+    \includegraphics[width=8cm]{tables3f3}
+    \caption{График таблицы \ref{m3p3} для $p_{min}$}
+  \end{minipage}
+\end{figure}
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Выводы} \label{s4}
+
+Исходя из численных экспериментов можно сделать несколько выводов:
+
+\begin{enumerate}
+  \item Алгоритм ППРЭ хорошо решает поставленную задачу поиска глобального 
+  минимума. 
+  \item Для данных генных сетей набор параметров обширен, по этой причине 
+  существует много вариантов их значений, в которых, возможно, достигается 
+  глобальный минимум. Соответственно, если в рамках задачи стоит вопрос поиска 
+  конкретного вектора параметров, метод ППРЭ, вероятно, не даст 
+  удовлетворительных результатов.
+  \item ...
+\end{enumerate}
+
+% { \color[HTML]{680100} ЦВЕТНОЙ }
 
 \clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
