@@ -2,8 +2,9 @@
 
 # Формирование из log файлов таблицы: 
 # Время работы, tao, значение F (функционлала качества)
+archive='methods';
 
-name='results/_result_m'
+name='results/_result'
 for fn in $name*.log;
 do 
   cat $fn \
@@ -15,6 +16,8 @@ do
   cat /tmp/results > "$fn.dev";
 done 
 
-rm -f results/export.zip
-zip results/export.zip $name*.dev
+# Упаковка
+rm -f results/*.zip
+zip results/$archive.dev.zip $name*.dev
+zip results/$archive.csv.zip $name*.log
 rm -f $name*.dev

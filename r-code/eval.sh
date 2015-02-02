@@ -39,8 +39,8 @@ function eval {
 	echo "OK";
 
 	# Перенос результата из "settings.hopt_log_0"
-	# cat settings.hopt_log_0 > "results/_result_m${MODEL}p${PSIZE}e${ES}_${RECS}t${COURSE}.log" 2> /dev/null
-	# rm -f settings.hopt_log_0
+	cat settings.hopt_log_0 > "results/_result_m${MODEL}p${PSIZE}e${ES}_${RECS}t${COURSE}.log" 2> /dev/null
+	rm -f settings.hopt_log_0
 }
 
 function evalmodel {
