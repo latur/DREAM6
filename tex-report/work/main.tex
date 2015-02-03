@@ -72,32 +72,12 @@
 формате. Пример такого представления для первой генной сети приведён на 
 рисунке~\ref{img:GrnImage}.
 
-\begin{figure}[h]
-  \center{\includegraphics[width=14cm]{model1-600x470.png}}
-  \caption{Пример графического представления для первой генной сети}
-  \label{img:GrnImage}
-\end{figure}
-
-\begin{figure}[h]
-  \begin{minipage}[h]{0.34\linewidth}
-    \center{\includegraphics[height=8cm]{diagram_key-267x303.png}}
-    \caption{Аннотация к графическому представлению}
-    \label{img:GrnImageDesc}
-  \end{minipage}
-  \hfill
-  \begin{minipage}[h]{0.64\linewidth}
-    \center{\includegraphics[height=6cm]{protein_production_subfigure-500x267.png}}
-    \caption{Транскрипция и трансляция, не показанные на схеме генной сети}
-    \label{img:GrnImageTT}
-  \end{minipage}
-\end{figure}
-
 Для каждой сети предоставляется файл (.m) с описанием модели в 
 синтаксисе MATLAB. Все переменные помечены в соответствии с их типом. 
 Например, переменные, означающие концентрацию белка, помечены как 
 $p1$,~$p2$,~...~$p6$. 
 
-Значения каждого символа в генной сети подробно 
+Значения каждого символа в генной сети 
 объясняются в легенде (рис.~\ref{img:GrnImageDesc}). В скобках перечислены 
 префиксы к переменным модели. Линии, соединяющие кодирующую белок 
 последовательность с белком, обозначены префиксом «pp». Генерация белка состоит 
@@ -105,9 +85,27 @@ $p1$,~$p2$,~...~$p6$.
 этапа, изображённые на схеме~\ref{img:GrnImageTT}, не показаны в диаграмме 
 генной сети. 
 
-Имена переменных для мРНК, для результата транскрипции кодирующей 
-последовательности имеют соответствующий префикс «pp». Например, мРНК, 
-соответствующая $pp3$ будет именована как $pp3\_mrna$.
+\begin{figure}[h]
+  \center{\includegraphics[width=17cm]{model1-600x470.png}}
+  \caption{Пример графического представления для первой генной сети}
+  \label{img:GrnImage}
+\end{figure}
+
+\begin{figure}[h]
+  \center{\includegraphics[width=8cm]{diagram_key-267x303.png}}
+  \caption{Аннотация к графическому представлению}
+  \label{img:GrnImageDesc}
+\end{figure}
+
+\begin{figure}[h]
+  \center{\includegraphics[width=12cm]{protein_production_subfigure-500x267.png}}
+  \caption{Транскрипция и трансляция, не показанные на схеме генной сети}
+  \label{img:GrnImageTT}
+\end{figure}
+
+Имена переменных для концентраций мРНК, результата транскрипции кодирующей 
+последовательности имеют соответствующий префикс «pp». Например, переменная, 
+соответствующая концентрации мРНК с номером $3$ будет именована как $pp3\_mrna$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Параметры генных сетей} \label{s2_3}
@@ -115,14 +113,126 @@ $p1$,~$p2$,~...~$p6$.
 Генная сеть характеризуется топологией (структурой), о которой говорилось выше, 
 и набором параметров — скорость трансляции, транскрипции, и параметров, 
 отвечающих за сайты связывания рибосом. Если все эти параметры и начальные 
-данные (начальные концентрации мРНК) определены, рассматривается поведение 
-генной сети на фиксированном интервале времени. Под поведением здесь имеется 
-ввиду динамика изменения концентраций мРНК и белка каждого типа.
+данные (начальные концентрации мРНК, белков) определены, рассматривается 
+поведение генной сети на фиксированном интервале времени. Под поведением здесь 
+имеется ввиду динамика изменения концентраций мРНК и белка каждого типа.
 
-Таким образом, каждая генная сеть с заданными параметрами порождает матрицу, 
+Таким образом, каждая генная сеть с заданными параметрами порождает ДУ, 
+решение которого в конкретном интервале времени пораждает матрицу, 
 содержащую набор концентраций для фиксированных моментов времени. В DREAM6 от
 участников требуется решить обратную задачу: по данной матрице концентраций 
 (пример матрицы~\ref{mRNAtable}) предоставить набор параметров сети.
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Уравнения генных сетей} \label{s2_3_up}
+
+Все параметры деградации мРНК и белков, имена переменных которых имеют вид: 
+$pp\{...\}\_degradation\_rate$ было принято считать одинаковыми в рамках проекта
+DREAM. Поэтому в ДУ для моделей я обозначил все эти параметры как 
+$degradation\_rate$. 
+
+Система ДУ для модели 1:
+\[ \begin{aligned}
+  \frac{d}{dt}&[pp1\_mrna] = pro1\_strength - [pp1\_mrna]; \\
+  \frac{d}{dt}&[pp2\_mrna] = pro2\_strength
+    \cdot \frac{(\frac{[p1]}{v2\_Kd})^{v2\_h}}{1+(\frac{[p1]}{v2\_Kd})^{v2\_h}}
+    \cdot \frac{1}{1+(\frac{[p6]}{v5\_Kd})^{v5\_h}} \\
+    & \cdot degradation\_rate - [pp2\_mrna]; \\
+  \frac{d}{dt}&[pp3\_mrna] = pro3\_strength 
+    \cdot \frac{(\frac{[p1]}{v3\_Kd})^{v2\_h}}{1+(\frac{[p1]}{v3\_Kd})^{v3\_h}} 
+    \cdot \frac{1}{1+(\frac{[p2]}{v4\_Kd})^{v4\_h}} \\
+    & \cdot degradation\_rate - [pp3\_mrna]; \\
+  \frac{d}{dt}&[pp4\_mrna] = pro4\_strength 
+    \cdot \frac{(\frac{[p1]}{v1\_Kd})^{v2\_h}}{1+(\frac{[p1]}{v1\_Kd})^{v1\_h}} 
+    \cdot \frac{1}{1+(\frac{[p5]}{v8\_Kd})^{v8\_h}} \\
+    & \cdot degradation\_rate - [pp4\_mrna]; \\
+  \frac{d}{dt}&[pp5\_mrna] = pro5\_strength
+    \cdot \frac{1}{1+(\frac{[p4]}{v6\_Kd})^{v6\_h}} \cdot degradation\_rate \\
+    & - [pp5\_mrna]; \\
+  \frac{d}{dt}&[pp6\_mrna] = pro6\_strength
+    \cdot \frac{1}{1+(\frac{[p4]}{v7\_Kd})^{v7\_h}} \cdot degradation\_rate \\
+    & - [pp6\_mrna]; \\
+  \frac{d}{dt}&[p1] = rbs1\_strength \cdot [pp1\_mrna] - degradation\_rate \cdot [p1]; \\
+  \frac{d}{dt}&[p2] = rbs2\_strength \cdot [pp2\_mrna] - degradation\_rate \cdot [p2]; \\
+  \frac{d}{dt}&[p3] = rbs3\_strength \cdot [pp3\_mrna] - degradation\_rate \cdot [p3]; \\
+  \frac{d}{dt}&[p4] = rbs4\_strength \cdot [pp4\_mrna] - degradation\_rate \cdot [p4]; \\
+  \frac{d}{dt}&[p5] = rbs5\_strength \cdot [pp5\_mrna] - degradation\_rate \cdot [p5]; \\
+  \frac{d}{dt}&[p6] = rbs6\_strength \cdot [pp6\_mrna] - degradation\_rate \cdot [p6];
+\end{aligned} \]
+
+Система ДУ для модели 2:
+\[ \begin{aligned}
+  \frac{d}{dt}&[pp1\_mrna] = pro1\_strength - degradation\_rate \cdot [pp1\_mrna]; \\
+  \frac{d}{dt}&[pp2\_mrna] = pro2\_strength 
+    \cdot \biggl(\frac{(\frac{[p1]}{v1\_Kd})^{v1\_h}}{1+(\frac{[p1]}{v1\_Kd})^{v1\_h}} + 
+    \frac{(\frac{[p2]}{v3\_Kd})^{v3\_h}}{1+(\frac{[p2]}{v3\_Kd})^{v3\_h}}\biggr) \\ 
+    & - degradation\_rate \cdot [pp2\_mrna]; \\
+  \frac{d}{dt}&[pp3\_mrna] = pro3\_strength 
+    \cdot \biggl(\frac{(\frac{[p1]}{v9\_Kd})^{v9\_h}}{1+(\frac{[p1]}{v9\_Kd})^{v9\_h}} + 
+    \frac{(\frac{[p2]}{v10\_Kd})^{v10\_h}}{1+(\frac{[p2]}{v10\_Kd})^{v10\_h}}\biggr) \\
+    & - degradation\_rate \cdot [pp3\_mrna]; \\
+  \frac{d}{dt}&[pp4\_mrna] = pro4\_strength 
+    \cdot \frac{1}{1+(\frac{[p3]}{v2\_Kd})^{v2\_h}} \\
+    & - degradation\_rate \cdot [pp4\_mrna]; \\
+  \frac{d}{dt}&[pp5\_mrna] = pro5\_strength 
+    \cdot \frac{(\frac{[p2]}{v4\_Kd })^{v4\_h }}{1+(\frac{[p2]}{v4\_Kd })^{v4\_h }} 
+    \cdot \frac{1}{1+(\frac{[p5]}{v5\_Kd})^{v5\_h}} \\
+    & - degradation\_rate \cdot [pp5\_mrna]; \\
+  \frac{d}{dt}&[pp6\_mrna] = pro6\_strength 
+    \cdot \frac{1}{1+(\frac{[p4]}{v6\_Kd})^{v6\_h}} \\
+    & - degradation\_rate \cdot [pp6\_mrna]; \\
+  \frac{d}{dt}&[pp7\_mrna] = pro7\_strength 
+    \cdot \frac{(\frac{[p7]}{v8\_Kd })^{v8\_h }}{1+(\frac{[p7]}{v8\_Kd })^{v8\_h }} 
+    \cdot \frac{1}{1+(\frac{[p6]}{v7\_Kd})^{v7\_h}} \\ 
+    & - degradation\_rate \cdot [pp7\_mrna]; \\
+  \frac{d}{dt}&[p1] = rbs1\_strength \cdot [pp1\_mrna] - degradation\_rate \cdot [p1]; \\
+  \frac{d}{dt}&[p2] = rbs2\_strength \cdot [pp2\_mrna] - degradation\_rate \cdot [p2]; \\
+  \frac{d}{dt}&[p3] = rbs3\_strength \cdot [pp3\_mrna] - degradation\_rate \cdot [p3]; \\
+  \frac{d}{dt}&[p4] = rbs4\_strength \cdot [pp4\_mrna] - degradation\_rate \cdot [p4]; \\
+  \frac{d}{dt}&[p5] = rbs5\_strength \cdot [pp5\_mrna] - degradation\_rate \cdot [p5]; \\
+  \frac{d}{dt}&[p6] = rbs6\_strength \cdot [pp6\_mrna] - degradation\_rate \cdot [p6]; \\
+  \frac{d}{dt}&[p7] = rbs7\_strength \cdot [pp7\_mrna] - degradation\_rate \cdot [p7]; \\
+\end{aligned} \]
+
+Система ДУ для модели 3:
+\[ \begin{aligned}
+  \frac{d}{dt}&[pp1\_mrna] = pro1\_strength - degradation\_rate \cdot [pp1\_mrna]; \\
+  \frac{d}{dt}&[pp2\_mrna] = pro2\_strength \cdot 
+    \biggl(\frac{(\frac{[p1]}{v1\_Kd})^{v1\_h}}{1+(\frac{[p1]}{v1\_Kd})^{v1\_h}} 
+    \cdot \frac{1}{1+(\frac{[p9]}{v13\_Kd})^{v13\_h}}\biggr) \\
+    & - degradation\_rate \cdot [pp2\_mrna]; \\
+  \frac{d}{dt}&[pp3\_mrna] = pro3\_strength \cdot 
+    \biggl(\frac{1}{1+(\frac{[p2]}{v2\_Kd})^{v2\_h}} 
+    \cdot \frac{1}{1+(\frac{[p3]}{v3\_Kd})^{v3\_h}}\biggr) \\
+    & - degradation\_rate \cdot [pp3\_mrna]; \\
+  \frac{d}{dt}&[pp4\_mrna] = pro4\_strength \cdot 
+    \biggl(\frac{1}{1+(\frac{[p3]}{v15\_Kd})^{v15\_h}} 
+    \cdot \frac{1}{1+(\frac{[p2]}{v14\_Kd})^{v14\_h}}\biggr) \\
+    & - degradation\_rate \cdot [pp4\_mrna]; \\
+  \frac{d}{dt}&[pp5\_mrna] = pro5\_strength 
+    \cdot \frac{(\frac{[p4]}{v4\_Kd})^{v4\_h}}{1+(\frac{[p4]}{v4\_Kd})^{v4\_h}} \\
+    & - degradation\_rate \cdot [pp5\_mrna]; \\
+  \frac{d}{dt}&[pp6\_mrna] = pro6\_strength \cdot 
+    \biggl(\frac{(\frac{[p5]}{v5\_Kd})^{v5\_h}}{1+(\frac{[p5]}{v5\_Kd})^{v5\_h}} + 
+    \frac{(\frac{[p6]}{v6\_Kd})^{v6\_h}}{1+(\frac{[p6]}{v6\_Kd})^{v6\_h}}\biggr) \\
+    & - degradation\_rate \cdot [pp6\_mrna]; \\
+  \frac{d}{dt}&[pp7\_mrna] = pro7\_strength \cdot 
+    \biggl(\frac{(\frac{[p6]}{v8\_Kd})^{v8\_h}}{1+(\frac{[p6]}{v8\_Kd})^{v8\_h}} + 
+    \frac{(\frac{[p5]}{v9\_Kd})^{v9\_h}}{1+(\frac{[p5]}{v9\_Kd})^{v9\_h}}\biggr) \\
+    & - degradation\_rate \cdot [pp7\_mrna]; \\
+  \frac{d}{dt}&[pp8\_mrna] = pro8\_strength \cdot 
+    \biggl(\frac{(\frac{[p7]}{v7\_Kd})^{v7\_h}}{1+(\frac{[p7]}{v7\_Kd})^{v7\_h}} 
+    \cdot \frac{1}{1+(\frac{[p8]}{v11\_Kd})^{v11\_h}}\biggr) \\
+    & - degradation\_rate \cdot [pp8\_mrna]; \\
+  \frac{d}{dt}&[pp9\_mrna] = pro9\_strength \cdot 
+    \biggl(\frac{(\frac{[p7]}{v10\_Kd})^{v10\_h}}{1+(\frac{[p7]}{v10\_Kd})^{v10\_h}} 
+    \cdot \frac{1}{1+(\frac{[p8]}{v12\_Kd})^{v12\_h}}\biggr) \\
+    & - degradation\_rate \cdot [pp9\_mrna]; \\
+  \frac{d}{dt}&[p\{i\}] = rbs\{i\}\_strength \cdot [pp\{i\}\_mrna] - degradation\_rate \cdot [p\{i\}]; \\
+\end{aligned} \]
+
+Для $\{i\} = 1,..9$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Начальные данные и возмущения} \label{s2_4}
