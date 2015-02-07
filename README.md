@@ -14,8 +14,7 @@
  * Расстояние между известными и полученными параметрами. 
 
 ## Отчёт:
-1. [Визуализация численных экспериментов](http://wolframo.tk/nb/1sfh2fi54c22b8462a8f.html).
-2. PDF
+[PDF](https://github.com/latur/DREAM6/blob/master/tex-report/index.pdf)
 
 ## Differential Evolution Entirely Parallel Method:
 Требования:
